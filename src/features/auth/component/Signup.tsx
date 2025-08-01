@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { SignUpSchema } from "../schema/SignUpSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { signUpUser } from "@/api/handler";
+import { getToken, signUpUser } from "@/api/handler";
 import { useNavigate } from "react-router";
 import { useEffect } from "react";
 import { toast } from "react-toastify";

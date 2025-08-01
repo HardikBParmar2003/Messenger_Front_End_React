@@ -8,8 +8,6 @@ import type { User } from "@/interface/interface";
 import { useState } from "react";
 import { useSocketContext } from "@/features/auth/hooks/SocketContext";
 import { useLoggedInUserContext } from "@/features/user/hooks";
-import { UserProfile } from "@/features/user/components/UserProfile";
-import { UserProfile } from "@/features/user/components/UserProfile";
 type AddMemberProps = {
   isOpen: boolean;
   onClose: () => void;
@@ -20,8 +18,7 @@ export function AddMember({ isOpen, onClose, addUSer }: AddMemberProps) {
   const [value, setvalue] = useState("");
   const [modal, setModal] = useState<boolean>(false);
   const [userId, setUserId] = useState<number>();
-  const [modal, setModal] = useState<boolean>(false);
-  const [userId, setUserId] = useState<number>();
+
   const [searchUsers, setSearchUsers] = useState<User[]>([]);
   const { selectedGroup } = useSelectedGroupContext();
   const { socket } = useSocketContext();
@@ -64,9 +61,7 @@ export function AddMember({ isOpen, onClose, addUSer }: AddMemberProps) {
 
   if (!isOpen) return null;
 
-  const closeModal = () => {
-    setModal(false);
-  };
+
 
   const closeModal = () => {
     setModal(false);
