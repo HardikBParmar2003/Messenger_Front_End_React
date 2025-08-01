@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import "../style/Form.css";
 import { useLoggedInUserContext } from "../hooks";
 import { updateUser } from "@/api/handler";
 import { toast } from "react-toastify";
@@ -17,17 +16,11 @@ export function UpdateUser() {
 
   const handleProfile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      if (
-        file.type.includes("jpeg") ||
-        file.type.includes("png") ||
-        file.type.includes("jpg")
-      ) {
-        const imageUrl = URL.createObjectURL(file);
-        setProfile(imageUrl);
-      } else {
-        alert("Upload Jpeg,png or jpg format file...");
-      }
+    if (file && ["image/jpeg", "image/png", "image/jpg"].includes(file.type)) {
+      const imageUrl = URL.createObjectURL(file);
+      setProfile(imageUrl);
+    } else {
+      alert("Upload jpeg, png, or jpg format file...");
     }
   };
 
@@ -37,82 +30,93 @@ export function UpdateUser() {
       const formData = new FormData();
       formData.append("first_name", data.first_name);
       formData.append("last_name", data.last_name);
-      if (data.profile.length > 0) {
+      if (data.profile?.length > 0) {
         formData.append("profile", data.profile[0]);
       }
       const response = await updateUser(formData);
       setLoggedInUser(response.data.data);
-      navigate("/home");
       toast.success("Profile updated successfully");
+      navigate("/home");
     } catch (error) {
-      setLoading(false);
-      throw error;
+      toast.error("Failed to update user.");
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <div className="bg--200 flex justify-center items-center min-h-screen">
-      <form onSubmit={handleSubmit(updateUserData)} className="text-left">
-        <h6 className="text-3xl font-bold mb-3">Update User </h6>
+    <div className="flex justify-center items-center min-h-screen bg-gray-50 px-4">
+      <form
+        onSubmit={handleSubmit(updateUserData)}
+        className="w-full max-w-md bg-white p-6 rounded-lg shadow-md space-y-4"
+      >
+        <h2 className="text-2xl font-bold text-center">Update Profile</h2>
 
-        <div className="">
+        <div className="flex justify-center">
           <img
             src={profile}
-            className="w-[140px] h-[140px] rounded-full ring-2 ring-red-100"
+            className="w-32 h-32 object-cover rounded-full ring-2 ring-red-200"
+            alt="Profile"
           />
         </div>
-        <div className="m-2 ">
-          <label>First Name: </label>
+
+        <div>
+          <label className="block mb-1 font-medium">First Name</label>
           <input
             type="text"
-            className="border"
             {...register("first_name")}
             defaultValue={loggedInUser?.first_name}
+            className="w-full border px-3 py-2 rounded"
           />
         </div>
-        <div className="m-2 ">
-          <label>Last Name: </label>
+
+        <div>
+          <label className="block mb-1 font-medium">Last Name</label>
           <input
             type="text"
-            className="border"
             {...register("last_name")}
             defaultValue={loggedInUser?.last_name}
+            className="w-full border px-3 py-2 rounded"
           />
         </div>
-        <div className="m-2 ">
-          <label>Email: </label>
+
+        <div>
+          <label className="block mb-1 font-medium">Email</label>
           <input
             type="email"
-            className="border"
             {...register("email")}
             defaultValue={loggedInUser?.email}
             readOnly
+            className="w-full border px-3 py-2 rounded bg-gray-100 text-gray-500"
           />
         </div>
-        <div className="m-2 ">
-          <label>Profile:</label>
+
+        <div>
+          <label className="block mb-1 font-medium">Profile Photo</label>
           <input
             type="file"
-            className="border w-62"
             {...register("profile")}
             accept="image/jpeg,image/jpg,image/png"
             onChange={handleProfile}
+            className="block w-full text-sm text-gray-700 border border-gray-300 rounded p-2"
           />
         </div>
-        {loading ? (
+
+        <div className="pt-2">
           <button
-            disabled
-            type="button"
-            className="py-2.5 px-5 me-2 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 inline-flex items-center"
+            type="submit"
+            disabled={loading}
+            className="w-full py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50 flex justify-center items-center"
           >
-            <LoaderComponent />
-            Loading...
+            {loading ? (
+              <>
+                <LoaderComponent /> &nbsp; Updating...
+              </>
+            ) : (
+              "Update"
+            )}
           </button>
-        ) : (
-          <button type="submit">Update</button>
-        )}
+        </div>
       </form>
     </div>
   );

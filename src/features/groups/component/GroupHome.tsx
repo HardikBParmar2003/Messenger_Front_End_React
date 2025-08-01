@@ -9,6 +9,7 @@ import CreateGroupModal from "./CreateGroupModal";
 import { useSocketContext } from "@/features/auth/hooks/SocketContext";
 import { useNotifictionContext } from "@/features/auth/hooks/NotificationFunction";
 import { useLoggedInUserContext } from "@/features/user/hooks";
+
 export function GroupHome() {
   const [allGroups, setAllGroups] = useState<Group[]>([]);
   const [isModal, setIsModal] = useState<boolean>(false);
@@ -33,7 +34,6 @@ export function GroupHome() {
         groupData.group_name
       } group, by ${admin_name}`
     );
-    // }
   }
 
   useEffect(() => {
@@ -117,24 +117,26 @@ export function GroupHome() {
 
   const onDeleteGroup = (group_id: number) => {
     setAllGroups((prevGroups) => {
-      const update = prevGroups.filter((group) => group.group_id != group_id);
-      return update;
+      return prevGroups.filter((group) => group.group_id !== group_id);
     });
   };
 
   return (
-    <div className="bg-gray-200 h-full">
+    <div className="bg-gray-100 min-h-screen flex flex-col">
       <NavBar />
       <SelectedGroupContextProvider>
         <div
-          className={`flex h-full m-5 transition duration-300 ${
+          className={`flex flex-col lg:flex-row gap-4 p-4 flex-grow h-[calc(100vh-80px)] ${
             isModal ? "blur-xs pointer-events-none" : ""
           }`}
         >
-          <div className="w-[25%]  h-[80%] border- border-gray-400 bg-anmber-400">
-            <AllGroups groups={allGroups} />
+          <div className="w-full lg:w-1/4 bg-white border rounded-md p-2 shadow flex flex-col max-h-full overflow-hidden">
+            <div className="flex-grow overflow-y-auto">
+              <AllGroups groups={allGroups} />
+            </div>
           </div>
-          <div className="w-[53%] h-[80%] border border-gray-400 bg-gray-300">
+
+          <div className="w-full lg:w-1/2 bg-white border rounded-md p-2 shadow flex flex-col max-h-full overflow-hidden">
             <GroupChat
               onUpdateGroup={updatedGroups}
               onDeleteGroup={onDeleteGroup}
@@ -142,18 +144,20 @@ export function GroupHome() {
               allGroups={allGroups}
             />
           </div>
-          <div className="w-[25%]  h-[80%] border- border-gray-400 bg-anmber-400">
+
+          <div className="w-full lg:w-1/4 bg-white border rounded-md p-2 shadow flex items-start justify-center max-h-full overflow-hidden">
             <button
-              className="bg-gray-700 hover:bg-gray-500 text-white font-medium py-2 px-4 rounded w-[70%] cursor-pointer"
+              className="bg-gray-700 hover:bg-gray-500 text-white font-medium py-2 px-4 rounded w-4/5 cursor-pointer"
               onClick={() => setIsModal(true)}
             >
               Create Group
             </button>
           </div>
         </div>
+
         {isModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center">
-            <div className="relative z-1">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+            <div className="relative z-10">
               <CreateGroupModal
                 closeModal={closeModal}
                 addNewGroup={addNewGroup}

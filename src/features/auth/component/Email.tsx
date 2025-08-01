@@ -4,68 +4,76 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { AuthWrapper } from "./AuthWrapper";
 
 export function Email() {
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     try {
-      setLoading(true);
       e.preventDefault();
+      setLoading(true);
       const formData = new FormData();
       formData.append("email", email);
       await sendOtp(formData);
-      toast.success(`OTP sent to ${email} `);
+      toast.success(`OTP sent to ${email}`);
       setTimeout(() => {
         navigate("/auth/verifyOtp");
       }, 3000);
     } catch (error) {
-      setLoading(false);
-      throw error;
+      // Optionally handle error
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="bg--200 flex justify-center items-center min-h-screen">
-      <form onSubmit={handleSubmit}>
-        <p className="text-2xl font-bold mb-5 text-center">Verify Email</p>
+    <AuthWrapper>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <h2 className="text-2xl font-bold text-center">Verify Email</h2>
+
         <div>
-          <label htmlFor="email">Email:</label>
+          <label htmlFor="email" className="block mb-1">
+            Email:
+          </label>
           <input
             type="email"
             id="email"
             value={email}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setEmail(e.target.value)
-            }
+            onChange={(e) => setEmail(e.target.value)}
             required
+            className="w-full px-4 py-2 border rounded-md"
           />
         </div>
+
         {loading ? (
           <button
             disabled
             type="button"
-            className="py-2.5 px-5 me-2 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 inline-flex items-center"
+            className="w-full flex justify-center items-center bg-gray-500 text-white py-2 rounded-md"
           >
             <LoaderComponent />
-            Loading...
+            <span className="ml-2">Loading...</span>
           </button>
         ) : (
           <>
-            <button type="submit">Send Otp</button>
+            <button
+              type="submit"
+              className="w-full bg-blue-600 text-white py-2 rounded-md"
+            >
+              Send OTP
+            </button>
             <Link
               to="/auth/login"
-              className="m-5 bg-blue-100 min-w-50 p-2 rounded-md text-center"
+              className="block text-center text-blue-500 mt-2"
             >
-              Log In
+              Already have an account? Log in
             </Link>
           </>
         )}
       </form>
-    </div>
+    </AuthWrapper>
   );
 }

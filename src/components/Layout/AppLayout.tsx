@@ -3,13 +3,10 @@ import { Outlet } from "react-router";
 
 export const AppLayout: FC = () => {
   return (
-    <div className="">
-      {/* Header */}
-      
-      <main className="">
+    <div >      
+      <main >
         <Outlet />
       </main>
-      {/* Footer */}
     </div>
   );
 };

@@ -6,6 +6,7 @@ import { useLoggedInUserContext } from "@/features/user/hooks";
 import { getToken, logInUser } from "@/api/auth.api";
 import { toast } from "react-toastify";
 import { ShowPasswordButton } from "@/components/Button/ShowPasswordButton";
+import { AuthWrapper } from "./AuthWrapper";
 
 export function Login() {
   const navigate = useNavigate();
@@ -40,51 +41,49 @@ export function Login() {
   };
 
   return (
-    <div className="bg--200 flex justify-center items-center min-h-screen">
-      <form onSubmit={handleSubmit} className="text-left">
-        <h3 className="text-4xl font-bold mb-5 text-center">Log In</h3>
+    <AuthWrapper>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <h3 className="text-3xl font-bold text-center">Log In</h3>
+
         <div>
-          <label htmlFor="email">Email:</label>
+          <label htmlFor="email" className="block mb-1">Email:</label>
           <input
             type="email"
             id="email"
             value={email}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setEmail(e.target.value)
-            }
+            onChange={(e) => setEmail(e.target.value)}
             required
+            className="w-full px-4 py-2 border rounded-md"
           />
         </div>
+
         <div>
-          <label htmlFor="password" className="ml-9">
-            Password:
-          </label>
+          <label htmlFor="password" className="block mb-1">Password:</label>
           <input
             type={showPassword ? "text" : "password"}
             id="password"
             value={password}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setPassword(e.target.value)
-            }
-            className="w-[70%] ml-10"
+            onChange={(e) => setPassword(e.target.value)}
             required
+            className="w-full px-4 py-2 border rounded-md"
           />
-
           <ShowPasswordButton
             showPassword={showPassword}
             onToggle={() => setShowPassword(!showPassword)}
           />
         </div>
-        <button type="submit">Log In</button>
-        <Link
-          to="/auth/newUser"
-          className="m-5 bg-blue-100 min-w-50 p-2 rounded-md text-center"
-        >
-          New User ?
+
+        <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded-md">
+          Log In
+        </button>
+
+        <Link to="/auth/newUser" className="block text-center text-blue-500 mt-2">
+          New User?
         </Link>
       </form>
-    </div>
+    </AuthWrapper>
   );
 }
+
 
 export default Login;

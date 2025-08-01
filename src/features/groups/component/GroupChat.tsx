@@ -31,6 +31,7 @@ type GroupUserProps = {
   setAllGroups: React.Dispatch<React.SetStateAction<Group[]>>;
   allGroups: Group[];
 };
+
 export function GroupChat({
   onUpdateGroup,
   onDeleteGroup,
@@ -50,7 +51,6 @@ export function GroupChat({
 
   useEffect(() => {
     if (!selectedGroup) {
-      console.log("no selected group", allGroups);
       if (allGroups.length > 0) setSelectedGroup(allGroups[0]);
       else return;
     }
@@ -121,11 +121,11 @@ export function GroupChat({
         "send group message",
         loggedInUser?.user_id,
         group_id,
-        `${use_name}  left group`,
+        `${use_name} left group`,
         selectedGroup?.group_name,
         loggedInUser?.user_id
       );
-      toast.success("User left from the group successfuly");
+      toast.success("User left from the group successfully");
     } else {
       return;
     }
@@ -137,8 +137,8 @@ export function GroupChat({
       const group_id = selectedGroup?.group_id as number;
       const response = await groupChatDownload(group_id);
       toast.success(response.data.message);
-      setLoading(false);
     } catch (error) {
+      setLoading(false);
       throw error;
     } finally {
       setLoading(false);
@@ -146,115 +146,88 @@ export function GroupChat({
   }
 
   return (
-    <>
-      <div
-        className={`flex m-1 transition duration-300  ${
-          isEditOpen || isAddMember || isRemoveMember
-            ? "blur-xs pointer-events-none"
-            : ""
-        }`}
-      >
+    <div className="flex flex-col h-full">
+      <div className="flex justify-between items-center p-3 border-b border-gray-300 bg-white flex-shrink-0">
         {selectedGroup ? (
           <>
-            <img
-              src={selectedGroup?.profile_photo}
-              className="user-profile-image w-[60px] h-[60px] rounded-full ring-2 ring-red-200"
-              key={selectedGroup?.group_id}
-            />
-            {loggedInUser?.user_id === selectedGroup.user_id ? (
-              <div className="flex justify-between items-center w-[80%] ">
-                <div className="m-3">
-                  <span className="text-lg m-[15px]">
-                    {selectedGroup?.group_name}
-                  </span>
-                </div>
-                <div className="flex m-3 space-x-4 text-lg ">
-                  <button>
-                    <FontAwesomeIcon
-                      icon={faEdit}
-                      className="text-green-800 border  p-1.75 hover:cursor-pointer rounded-sm"
-                      onClick={() => setIsEditOpen(true)}
-                    />
-                  </button>
-                  <button onClick={() => setIsAddMember(true)}>
-                    <FontAwesomeIcon
-                      icon={faUserPlus}
-                      className="text-green-800 border  p-1.5 hover:cursor-pointer rounded-sm"
-                    />
-                  </button>
-                  <button onClick={() => setIsRemoveMember(true)}>
-                    <FontAwesomeIcon
-                      icon={faUserMinus}
-                      className="text-green-800 border  p-1.5 hover:cursor-pointer rounded-sm"
-                    />
-                  </button>
-                  {loading ? (
-                    <LoaderComponent />
-                  ) : (
-                    <button onClick={downloadChat}>
-                      <FontAwesomeIcon
-                        icon={faFilePdf}
-                        className="text-green-800 border  p-1.5 hover:cursor-pointer rounded-sm"
-                      />
-                    </button>
-                  )}
+            <div className="flex items-center space-x-3">
+              <img
+                src={selectedGroup.profile_photo}
+                alt={selectedGroup.group_name}
+                className="w-14 h-14 rounded-full ring-2 ring-red-200 object-cover flex-shrink-0"
+              />
+              <span className="text-lg font-medium">
+                {selectedGroup.group_name}
+              </span>
+            </div>
 
-                  <button onClick={leftGroup}>
-                    <FontAwesomeIcon
-                      icon={faDoorOpen}
-                      className="text-red-800 border  p-1.5 hover:cursor-pointer rounded-sm"
-                    />
-                  </button>
-
-                  <button onClick={deleteGroup}>
-                    <FontAwesomeIcon
-                      icon={faTrash}
-                      className="text-red-800 border  p-1.5 hover:cursor-pointer rounded-sm "
-                    />
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <div className="flex w-[80%] justify-between">
-                <span className="text-lg m-[15px]">
-                  {selectedGroup?.group_name}
+            <div className="flex items-center space-x-3 text-xl">
+              <button
+                onClick={() => setIsEditOpen(true)}
+                className="text-green-800 border p-2 rounded-sm hover:bg-green-100 transition"
+                aria-label="Edit Group"
+                type="button"
+              >
+                <FontAwesomeIcon icon={faEdit} />
+              </button>
+              <button
+                onClick={() => setIsAddMember(true)}
+                className="text-green-800 border p-2 rounded-sm hover:bg-green-100 transition"
+                aria-label="Add Member"
+                type="button"
+              >
+                <FontAwesomeIcon icon={faUserPlus} />
+              </button>
+              <button
+                onClick={() => setIsRemoveMember(true)}
+                className="text-green-800 border p-2 rounded-sm hover:bg-green-100 transition"
+                aria-label="Remove Member"
+                type="button"
+              >
+                <FontAwesomeIcon icon={faUserMinus} />
+              </button>
+              {loading ? (
+                <span
+                 
+                >
+                  <LoaderComponent />
+                 
                 </span>
-                <div className="flex w-[23%] mt-2 justify-between bg-amber-5000 text-lg">
-                  <button onClick={() => setIsViewMember(true)}>
-                    <FontAwesomeIcon
-                      icon={faEye}
-                      className="text-green-800 border  p-1.5 hover:cursor-pointer rounded-sm"
-                    />
-                  </button>
-                  {loading ? (
-                    <span>
-                      <LoaderComponent />
-                    </span>
-                  ) : (
-                    <button onClick={downloadChat}>
-                      <FontAwesomeIcon
-                        icon={faFilePdf}
-                        className="text-green-800 border  p-1.5 hover:cursor-pointer rounded-sm"
-                      />
-                    </button>
-                  )}
-
-                  <button onClick={leftGroup}>
-                    <FontAwesomeIcon
-                      icon={faDoorOpen}
-                      className="text-red-800 border  p-1.5 hover:cursor-pointer rounded-sm"
-                    />
-                  </button>
-                </div>
-              </div>
-            )}
+              ) : (
+                <button
+                  onClick={downloadChat}
+                  className="text-green-800 border p-2 rounded-sm hover:bg-green-100 transition"
+                  aria-label="Download Chat"
+                  type="button"
+                >
+                  <FontAwesomeIcon icon={faFilePdf} />
+                </button>
+              )}
+              <button
+                onClick={leftGroup}
+                className="text-red-800 border p-2 rounded-sm hover:bg-red-100 transition"
+                aria-label="Leave Group"
+                type="button"
+              >
+                <FontAwesomeIcon icon={faDoorOpen} />
+              </button>
+              <button
+                onClick={deleteGroup}
+                className="text-red-800 border p-2 rounded-sm hover:bg-red-100 transition"
+                aria-label="Delete Group"
+                type="button"
+              >
+                <FontAwesomeIcon icon={faTrash} />
+              </button>
+            </div>
           </>
         ) : (
-          <span className="w-[85%] mx-auto p-1.5 border rounded-4xl bg-white underline">
+          <span className="w-full mx-auto p-3 border rounded-full bg-white text-center underline">
             Select or Create Group to start chatting
           </span>
         )}
       </div>
+
       {selectedGroup && (
         <ShowGroupChat
           ChatData={chatData}
@@ -271,7 +244,6 @@ export function GroupChat({
           onGroupUpdated={onUpdateGroup}
         />
       )}
-
       {isAddMember && (
         <AddMember
           isOpen={isAddMember}
@@ -279,7 +251,6 @@ export function GroupChat({
           addUSer={addUSer}
         />
       )}
-
       {isRemoveMember && (
         <RemoveMember
           isOpen={isRemoveMember}
@@ -288,7 +259,6 @@ export function GroupChat({
           removeMember={removeMember}
         />
       )}
-
       {isViewMember && (
         <ViewGroupMember
           isOpen={isViewMember}
@@ -296,13 +266,13 @@ export function GroupChat({
           groupUsers={groupUser}
         />
       )}
+
       {loading && (
-        <span>
-          {" "}
+        <span className="flex justify-center items-center mt-4 space-x-2">
           <LoaderComponent />
-          Loading...
+          <span>Loading...</span>
         </span>
       )}
-    </>
+    </div>
   );
 }
