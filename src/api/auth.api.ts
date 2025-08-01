@@ -21,3 +21,12 @@ export const logOutUser = () => {
 export const signUpUser = (data: User) => {
   return api.post("/user/signUpUser", data,);
 };
+
+
+export const getToken = ()=>{
+  return api.get("/user/getToken")
+}
+
+export const getEmail = ()=>{
+  return api.get("/user/getEmail")
+}

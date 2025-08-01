@@ -94,7 +94,9 @@ export const GlobalSearchUser: FC = () => {
               </li>
             ))
           ) : (
-            <li className="text-center p-5 m-5 w-[80%] text-2xl">No User Found</li>
+            <li className="text-center p-5 m-5 w-[80%] text-2xl">
+              No User Found
+            </li>
           )}
         </ul>
       ) : (

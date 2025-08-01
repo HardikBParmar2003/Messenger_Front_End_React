@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "../../../App.css";
 import "../../user/style/Form.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useLoggedInUserContext } from "@/features/user/hooks";
-import { logInUser } from "@/api/auth.api";
-import { getCookie } from "../function";
+import { getToken, logInUser } from "@/api/auth.api";
 import { toast } from "react-toastify";
 import { ShowPasswordButton } from "@/components/Button/ShowPasswordButton";
 
@@ -16,11 +15,15 @@ export function Login() {
   const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
-    const token = getCookie("jwt_token");
-    if (token) {
-      navigate("/home/");
+    async function verifyToken() {
+      const token = await getToken();
+      if (token.data.data == true) {
+        navigate("/home");
+      }
     }
+    verifyToken()
   }, [navigate]);
+
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();

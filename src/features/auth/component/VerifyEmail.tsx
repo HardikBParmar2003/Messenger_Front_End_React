@@ -1,21 +1,23 @@
-import { verifyOtp } from "@/api/handler";
+import { getEmail, verifyOtp } from "@/api/handler";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { getCookie } from "../function";
 import { toast } from "react-toastify";
-import { Link } from "react-router-dom";
 
 export function VerifyEmail() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const user_email = getCookie("user_email");
-    if (!user_email) {
-      toast.error("First verify email");
-      setTimeout(() => {
-        navigate("/auth/login");
-      }, 3000);
+    async function verifyEmail() {
+      const user_email = await getEmail();
+      if (!user_email.data.data) {
+        console.log("ghvdjhfds",user_email.data.data);
+        toast.error("First verify email");
+        setTimeout(() => {
+          navigate("/auth/login");
+        }, 3000);
+      }
     }
+    verifyEmail()
   }, []);
 
   const [otp, setOtp] = useState<string>("");

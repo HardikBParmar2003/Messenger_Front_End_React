@@ -4,10 +4,9 @@ import { useForm } from "react-hook-form";
 import { SignUpSchema } from "../schema/SignUpSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { signUpUser } from "@/api/handler";
+import { getToken, signUpUser } from "@/api/handler";
 import { useNavigate } from "react-router";
 import { useEffect } from "react";
-import { getCookie } from "../function";
 import { toast } from "react-toastify";
 
 export type SignUpFormData = z.infer<typeof SignUpSchema>;
@@ -23,11 +22,14 @@ export function Signup() {
   });
 
   useEffect(() => {
-    const token = getCookie("user_email");
-    if (!token) {
-      alert("First verify Email");
-      navigate("/auth/newUser");
+    async function verifyToken() {
+      const token = await getToken();
+      if (!token.data.data) {
+        toast.error("First verify Email");
+        navigate("/auth/newUser");
+      }
     }
+    verifyToken();
   }, [navigate]);
   const onSubmit = async (data: SignUpFormData) => {
     await signUpUser(data);

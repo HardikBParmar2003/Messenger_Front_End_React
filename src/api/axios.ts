@@ -17,10 +17,8 @@ api.interceptors.response.use(
   (error) => {
     if (error.response?.status == 400) {
       toast.error(error.response?.data.message);
-      setTimeout(() => {
-        window.location.href = "/auth/login";
-      },2000);
     } else if (error.response?.status == 401) {
+      
       toast.error(error.response?.data.message);
       setTimeout(() => {
         window.location.href = "/auth/login";
@@ -29,6 +27,8 @@ api.interceptors.response.use(
       toast.error(error.response?.data.message);
     } else if (error.response?.status == 500) {
       toast.error(error.response?.data.message);
+    }else{
+      toast.error("Network errror try after some time")
     }
     return Promise.reject(error);
   }
