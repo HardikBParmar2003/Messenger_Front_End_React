@@ -4,6 +4,7 @@ import "../../user/style/Form.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useLoggedInUserContext } from "@/features/user/hooks";
 import { getToken, logInUser } from "@/api/auth.api";
+import { getToken, logInUser } from "@/api/auth.api";
 import { toast } from "react-toastify";
 import { ShowPasswordButton } from "@/components/Button/ShowPasswordButton";
 import { AuthWrapper } from "./AuthWrapper";
@@ -22,7 +23,6 @@ export function Login() {
         navigate("/home");
       }
     }
-    verifyToken();
   }, [navigate]);
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {

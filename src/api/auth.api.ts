@@ -28,3 +28,11 @@ export const getToken = () => {
 export const getEmail = () => {
   return api.get("/user/getEmail");
 };
+
+export const getToken = ()=>{
+  return api.get("/user/getToken")
+}
+
+export const getEmail = ()=>{
+  return api.get("/user/getEmail")
+}
