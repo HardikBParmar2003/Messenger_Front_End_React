@@ -1,9 +1,4 @@
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { useLoggedInUserContext } from "@/features/user/hooks";
 import { io, Socket } from "socket.io-client";
 
@@ -28,14 +23,13 @@ export function SocketContextProvider({
 
   useEffect(() => {
     if (!loggedInUser) {
-    
       if (socket) {
         socket.disconnect();
         setSocket(null);
         setIsConnected(false);
       }
-      return
-    };
+      return;
+    }
 
     const newSocket = io("http://localhost:4000", {
       withCredentials: true,

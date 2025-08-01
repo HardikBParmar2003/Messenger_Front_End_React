@@ -10,7 +10,7 @@ export const App: FC = () => {
     return (
       <div className="flex justify-center items-center h-screen">
         <LoaderComponent />
-        </div>
+      </div>
     );
   }
   return (

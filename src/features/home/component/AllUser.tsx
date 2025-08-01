@@ -6,7 +6,6 @@ import { chattingUsers } from "@/api/handler";
 import { NavBar } from "./NavBar";
 import type { User } from "@/interface/interface";
 import { useNotifictionContext } from "@/features/auth/hooks/NotificationFunction";
-import { LoaderComponent } from "@/components/Loader/Loader";
 export const AllUser: FC = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);

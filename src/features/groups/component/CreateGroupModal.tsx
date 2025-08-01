@@ -16,7 +16,7 @@ function CreateGroupModal({ closeModal, addNewGroup }: CloseModelProps) {
     const response = await createGroup(formData);
     toast.success(response.data.message);
     setGroupName("");
-    addNewGroup(response.data.data);    
+    addNewGroup(response.data.data);
     closeModal();
   };
 

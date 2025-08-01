@@ -9,7 +9,7 @@ import { useSelectedUserContext } from "../hooks/index";
 import { ShowChatData } from "./index";
 import { UserProfile } from "@/features/user/components/UserProfile";
 
-export function Chat({ users, setUsers }: chatProps) {
+export function Chat({ setUsers }: chatProps) {
   const { selectedUser, setSelectedUser } = useSelectedUserContext();
   const { loggedInUser } = useLoggedInUserContext();
   const [loading, setLoading] = useState<boolean>(false);

@@ -45,7 +45,6 @@ export function AllGroups({ groups }: AllGroupsProps) {
           </>
         ) : (
           <li className="p-5 m-5 w-[80%] text-2xl ">No Group Found</li>
-
         )}
       </ul>
     </div>

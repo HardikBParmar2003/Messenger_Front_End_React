@@ -87,11 +87,11 @@ export function ShowChatData({ ChatData, setUsers }: ChatDataTypeProps) {
         });
         updatedUsers.sort(
           (a, b) =>
-            new Date(b.lastMessageAt!).getTime() - new Date(a.lastMessageAt!).getTime()
+            new Date(b.lastMessageAt!).getTime() -
+            new Date(a.lastMessageAt!).getTime()
         );
         return updatedUsers;
       });
-
     });
 
     return () => {

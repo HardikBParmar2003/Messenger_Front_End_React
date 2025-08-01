@@ -1,6 +1,5 @@
 import { findUser } from "@/api/handler";
 import { useSelectedUserContext } from "@/features/chat/hooks";
-import { faL } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState, type FC } from "react";
 import { UserProfile } from "./UserProfile";
 

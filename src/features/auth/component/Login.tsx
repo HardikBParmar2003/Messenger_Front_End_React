@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../../App.css";
 import "../../user/style/Form.css";
 import { Link, useNavigate } from "react-router-dom";
@@ -21,9 +21,8 @@ export function Login() {
         navigate("/home");
       }
     }
-    verifyToken()
+    verifyToken();
   }, [navigate]);
-
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();

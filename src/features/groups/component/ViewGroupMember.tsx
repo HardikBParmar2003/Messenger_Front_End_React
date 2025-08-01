@@ -17,7 +17,7 @@ export function ViewGroupMember({
     );
   }, [value, groupUsers]);
 
-  if(!isOpen) return null
+  if (!isOpen) return null;
   return (
     <div className="fixed inset-0  bg-opacity-40 flex justify-center items-center z-50">
       <div className="bg-white p-6 rounded-lg w-[30%] h-[70%] shadow-md relative">

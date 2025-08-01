@@ -10,14 +10,14 @@ export function VerifyEmail() {
     async function verifyEmail() {
       const user_email = await getEmail();
       if (!user_email.data.data) {
-        console.log("ghvdjhfds",user_email.data.data);
+        console.log("ghvdjhfds", user_email.data.data);
         toast.error("First verify email");
         setTimeout(() => {
           navigate("/auth/login");
         }, 3000);
       }
     }
-    verifyEmail()
+    verifyEmail();
   }, []);
 
   const [otp, setOtp] = useState<string>("");

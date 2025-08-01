@@ -2,8 +2,6 @@ import {
   addMember,
   findUser,
   individualUser,
-  loggedInUser,
-  logInUser,
 } from "@/api/handler";
 import { useSelectedGroupContext } from "../hook";
 import type { User } from "@/interface/interface";
@@ -103,9 +101,9 @@ export function AddMember({ isOpen, onClose, addUSer }: AddMemberProps) {
                   <img
                     src={user.profile_photo}
                     className="user-profile-image cursor-pointer w-8 h-8 rounded-full ring-2 ring-red-200"
-                    onClick={()=>{
-                      setUserId(user.user_id)
-                      setModal(true)
+                    onClick={() => {
+                      setUserId(user.user_id);
+                      setModal(true);
                     }}
                   />
                   <span className="user-name w-[290px] ">
@@ -129,8 +127,7 @@ export function AddMember({ isOpen, onClose, addUSer }: AddMemberProps) {
           </ul>
         )}
       </div>
-            {modal && <UserProfile onClose={closeModal} userId={Number(userId)} />}
-      
+      {modal && <UserProfile onClose={closeModal} userId={Number(userId)} />}
     </div>
   );
 }

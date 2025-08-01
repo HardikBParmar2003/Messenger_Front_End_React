@@ -4,10 +4,7 @@ import { useSelectedGroupContext } from "../hook";
 import type { EditGroupProps, Group } from "@/interface/interface";
 import { toast } from "react-toastify";
 import { useSocketContext } from "@/features/auth/hooks/SocketContext";
-export function EditGroupModal({
-  isOpen,
-  onClose,
-}: EditGroupProps) {
+export function EditGroupModal({ isOpen, onClose }: EditGroupProps) {
   const { selectedGroup, setSelectedGroup } = useSelectedGroupContext();
   const [loading, setLoading] = useState(false);
   const [groupName, setGroupName] = useState(
@@ -17,7 +14,7 @@ export function EditGroupModal({
   const [preview, setPreview] = useState<string | undefined>(
     selectedGroup?.profile_photo
   );
-  const{socket} = useSocketContext()
+  const { socket } = useSocketContext();
   useEffect(() => {
     setGroupName(selectedGroup?.group_name as string);
     setPreview(selectedGroup?.profile_photo);

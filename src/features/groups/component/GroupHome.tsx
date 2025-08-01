@@ -27,11 +27,12 @@ export function GroupHome() {
       groupData.latestMessageTime = String(Date.now());
     }
     addNewGroup(groupData);
-    // if (loggedInUser?.user_id == user_id) {
-    
-      sendNotification(
-        `${loggedInUser?.first_name + " "+loggedInUser?.last_name} added into ${groupData.group_name} group, by ${admin_name}`
-      );
+
+    sendNotification(
+      `${loggedInUser?.first_name + " " + loggedInUser?.last_name} added into ${
+        groupData.group_name
+      } group, by ${admin_name}`
+    );
     // }
   }
 
@@ -82,9 +83,11 @@ export function GroupHome() {
     socket.on(
       "remove member back",
       (group_id: number, user_id: number, group_name: string) => {
-          sendNotification("Remove From Group", {
-            body: `${loggedInUser?.first_name + " "+ loggedInUser?.last_name} removed from ${group_name}`,
-          });
+        sendNotification("Remove From Group", {
+          body: `${
+            loggedInUser?.first_name + " " + loggedInUser?.last_name
+          } removed from ${group_name}`,
+        });
         onDeleteGroup(group_id);
       }
     );
