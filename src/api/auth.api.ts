@@ -29,4 +29,5 @@ export const getToken = ()=>{
 
 export const getEmail = ()=>{
   return api.get("/user/getEmail")
+  // dsfjhvj
 }
