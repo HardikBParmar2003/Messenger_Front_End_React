@@ -8,6 +8,7 @@ import type { User } from "@/interface/interface";
 import { useState } from "react";
 import { useSocketContext } from "@/features/auth/hooks/SocketContext";
 import { useLoggedInUserContext } from "@/features/user/hooks";
+import { UserProfile } from "@/features/user/components/UserProfile";
 type AddMemberProps = {
   isOpen: boolean;
   onClose: () => void;
@@ -18,7 +19,6 @@ export function AddMember({ isOpen, onClose, addUSer }: AddMemberProps) {
   const [value, setvalue] = useState("");
   const [modal, setModal] = useState<boolean>(false);
   const [userId, setUserId] = useState<number>();
-
   const [searchUsers, setSearchUsers] = useState<User[]>([]);
   const { selectedGroup } = useSelectedGroupContext();
   const { socket } = useSocketContext();
@@ -61,8 +61,6 @@ export function AddMember({ isOpen, onClose, addUSer }: AddMemberProps) {
 
   if (!isOpen) return null;
 
-
-
   const closeModal = () => {
     setModal(false);
   };
@@ -103,6 +101,10 @@ export function AddMember({ isOpen, onClose, addUSer }: AddMemberProps) {
                   <img
                     src={user.profile_photo}
                     className="user-profile-image cursor-pointer w-8 h-8 rounded-full ring-2 ring-red-200"
+                    onClick={()=>{
+                      setUserId(user.user_id)
+                      setModal(true)
+                    }}
                   />
                   <span className="user-name w-[290px] ">
                     {user.first_name + " " + user.last_name}
@@ -125,6 +127,8 @@ export function AddMember({ isOpen, onClose, addUSer }: AddMemberProps) {
           </ul>
         )}
       </div>
+      {modal && <UserProfile onClose={closeModal} userId={Number(userId)} />}
+
     </div>
   );
 }

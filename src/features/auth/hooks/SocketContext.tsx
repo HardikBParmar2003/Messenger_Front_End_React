@@ -31,7 +31,7 @@ export function SocketContextProvider({
       return;
     }
 
-    const newSocket = io("https://messenger-sequelize.onrender.com", {
+    const newSocket = io("http://localhost:4000", {
       withCredentials: true,
     });
     setSocket(newSocket);

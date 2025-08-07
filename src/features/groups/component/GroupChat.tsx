@@ -187,11 +187,8 @@ export function GroupChat({
                 <FontAwesomeIcon icon={faUserMinus} />
               </button>
               {loading ? (
-                <span
-                 
-                >
+                <span>
                   <LoaderComponent />
-                 
                 </span>
               ) : (
                 <button

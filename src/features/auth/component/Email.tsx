@@ -23,7 +23,7 @@ export function Email() {
         navigate("/auth/verifyOtp");
       }, 3000);
     } catch (error) {
-      // Optionally handle error
+      throw error;
     } finally {
       setLoading(false);
     }
